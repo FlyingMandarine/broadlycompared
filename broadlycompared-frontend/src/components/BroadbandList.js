@@ -1,42 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import {
-    Container,
-    Divider,
-    Rating,
-    Stack,
-} from '@mui/material';
+import { Button, Box, Container, Divider, Rating, Stack } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import axios from 'axios';
-
-const styles = {
-    appContainer: {
-        backgroundColor: 'white',
-        marginTop: '5%',
-        borderRadius: 10,
-    },
-    listContainer: {
-        margin: '20px 0'
-    },
-    logo: {
-        width: 75,
-        height: 75,
-    },
-    providerName: {
-        fontWeight: 'bold',
-        fontSize: '1.4em',
-    },
-    dealName: {
-        color: 'grey',
-    },
-    monthlyPrice: {
-        color: 'dodgerblue',
-    },
-    internetSpeed: {},
-    setupCost: {},
-    contractLength: {},
-};
+import AddRemove from './AddRemove';
+import styles from '../styles';
 
 const BroadbandList = () => {
     const [broadbandDeals, setBroadbandDeals] = useState();
+    const [chosenDeals, setChosenDeals] = useState([]);
+    const [isDrawerOpen, setIsDrawerOpen] = useState(true);
 
     useEffect(() => {
         const getAll = async () => {
@@ -50,29 +22,41 @@ const BroadbandList = () => {
         getAll();
     }, []);
 
-    console.log('broadbandDeals is', broadbandDeals);
-
     if (!broadbandDeals) {
         return <div>Loading...</div>;
     }
 
+    const toggleChosenDeals = (newDeal) => {
+        if (chosenDeals.includes(newDeal)) {
+            setChosenDeals(chosenDeals.filter((deal) => deal !== newDeal));
+        } else {
+            if (chosenDeals.length === 2) {
+                return;
+            }
+            setChosenDeals([...chosenDeals, newDeal]);
+        }
+    };
+
     return (
-        <Container style={styles.appContainer}>
+        <Container maxWidth="xl" style={styles.appContainer}>
             <Stack divider={<Divider />}>
                 {broadbandDeals.deals.map((deal, i) => (
                     <Stack
                         direction="row"
                         justifyContent="space-evenly"
                         alignItems="center"
+                        textAlign="center"
                         key={deal.deal_id}
                         style={styles.listContainer}
                     >
-                        <img
-                            src={deal.provider_logo_image_url}
-                            alt={`Logo for ${deal.provider_name}`}
-                            style={styles.logo}
-                        />
-                        <div>
+                        <div style={styles.logoDiv}>
+                            <img
+                                src={deal.provider_logo_image_url}
+                                alt={`Logo for ${deal.provider_name}`}
+                                style={styles.logo}
+                            />
+                        </div>
+                        <div style={styles.providerInfo}>
                             <div style={styles.providerName}>
                                 {deal.provider_name}
                             </div>
@@ -82,31 +66,64 @@ const BroadbandList = () => {
                                 value={deal.provider_rating * 5}
                                 precision={0.5}
                                 readOnly
-                                style={{ color: 'dodgerblue' }}
+                                style={{ color: '#1976d2' }}
                             />
                         </div>
                         <div style={styles.monthlyPrice}>
-                            <div>£{deal.monthly_price}</div>
+                            <div style={styles.monthlyPriceTop}>
+                                £{deal.monthly_price.toFixed(2)}
+                            </div>
                             <div>Monthly cost</div>
                         </div>
                         <div style={styles.internetSpeed}>
-                            <div>{deal.internet_speed} Mbps</div>
-                            <div>{deal.broadband_type}</div>
+                            <div style={styles.listItemGenericTop}>
+                                {deal.internet_speed} Mbps
+                            </div>
+                            <div style={styles.listItemGenericBottom}>
+                                {deal.broadband_type}
+                            </div>
                         </div>
                         <div style={styles.setupCost}>
-                            <div>£{deal.set_up_cost}</div>
-                            <div>Setup Costs</div>
+                            <div style={styles.listItemGenericTop}>
+                                £{deal.set_up_cost}
+                            </div>
+                            <div style={styles.listItemGenericBottom}>
+                                Setup Costs
+                            </div>
                         </div>
                         <div style={styles.contractLength}>
-                            <div>{deal.contract_info}</div>
-                            <div>Contract</div>
+                            <div style={styles.listItemGenericTop}>
+                                {deal.contract_info}
+                            </div>
+                            <div style={styles.listItemGenericBottom}>
+                                Contract
+                            </div>
                         </div>
-                        <button>Remove</button>
-                        <button>Continue</button>
-                        <div>More info</div>
+                        <AddRemove
+                            deal={deal}
+                            chosenDeals={chosenDeals}
+                            toggleChosenDeals={toggleChosenDeals}
+                        />
+                        <div style={styles.listButtonDiv}>
+                            <Button
+                                variant="contained"
+                                style={styles.listButton}
+                            >
+                                Continue
+                            </Button>
+                        </div>
+                        <div style={styles.moreInfo}>
+                            More info
+                            <ExpandMoreIcon style={styles.moreInfoIcon} />{' '}
+                        </div>
                     </Stack>
                 ))}
             </Stack>
+            {isDrawerOpen && (
+                <Box>
+                    <div>Hello</div>
+                </Box>
+            )}
         </Container>
     );
 };

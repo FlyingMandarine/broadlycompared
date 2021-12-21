@@ -1,44 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { Button, Box, Container, Divider, Rating, Stack } from '@mui/material';
+import React from 'react';
+import { Button, Container, Divider, Rating, Stack } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import axios from 'axios';
 import AddRemove from './AddRemove';
 import styles from '../styles';
 
-const BroadbandList = () => {
-    const [broadbandDeals, setBroadbandDeals] = useState();
-    const [chosenDeals, setChosenDeals] = useState([]);
-    const [isDrawerOpen, setIsDrawerOpen] = useState(true);
-
-    useEffect(() => {
-        const getAll = async () => {
-            const URL =
-                'https://6177b8b59c328300175f5adc.mockapi.io/api/test/deals';
-            const response = await axios.get(URL);
-
-            setBroadbandDeals(response.data);
-        };
-
-        getAll();
-    }, []);
-
-    if (!broadbandDeals) {
-        return <div>Loading...</div>;
-    }
-
-    const toggleChosenDeals = (newDeal) => {
-        if (chosenDeals.includes(newDeal)) {
-            setChosenDeals(chosenDeals.filter((deal) => deal !== newDeal));
-        } else {
-            if (chosenDeals.length === 2) {
-                return;
-            }
-            setChosenDeals([...chosenDeals, newDeal]);
-        }
-    };
-
+const BroadbandList = ({ broadbandDeals, chosenDeals, toggleChosenDeals }) => {
     return (
-        <Container maxWidth="xl" style={styles.appContainer}>
+        <Container maxWidth="xl" style={styles.mainContainer}>
             <Stack divider={<Divider />}>
                 {broadbandDeals.deals.map((deal, i) => (
                     <Stack
@@ -114,16 +82,11 @@ const BroadbandList = () => {
                         </div>
                         <div style={styles.moreInfo}>
                             More info
-                            <ExpandMoreIcon style={styles.moreInfoIcon} />{' '}
+                            <ExpandMoreIcon style={styles.moreInfoIcon} />
                         </div>
                     </Stack>
                 ))}
             </Stack>
-            {isDrawerOpen && (
-                <Box>
-                    <div>Hello</div>
-                </Box>
-            )}
         </Container>
     );
 };

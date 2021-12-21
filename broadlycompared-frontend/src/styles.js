@@ -1,5 +1,5 @@
 const styles = {
-    appContainer: {
+    mainContainer: {
         backgroundColor: 'white',
         marginTop: '5%',
         borderRadius: 10,
@@ -53,7 +53,7 @@ const styles = {
         flex: '0 0 140px',
     },
     listButton: {
-        borderRadius: 25,
+        borderRadius: 20,
         textTransform: 'none',
     },
     moreInfo: {
@@ -67,6 +67,30 @@ const styles = {
     snackbar: {
         backgroundColor: 'red',
         fontSize: 15,
+    },
+    bottomDrawer: {
+        position: 'absolute',
+        bottom: 0,
+        backgroundColor: 'white',
+    },
+    cardContainer: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-evenly',
+        minWidth: 250,
+        height: 100,
+        margin: '20px 10px',
+        borderRadius: 10,
+    },
+    closeIcon: {
+        margin: '0 10px',
+    },
+    compareButton: {
+        borderRadius: 20,
+        textTransform: 'none',
+        height: 50,
+        alignSelf: 'center',
+        marginLeft: 20,
     },
 };
 

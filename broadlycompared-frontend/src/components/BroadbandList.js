@@ -1,8 +1,8 @@
 import React from 'react';
+import styles from '../styles';
 import { Button, Container, Divider, Rating, Stack } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AddRemove from './AddRemove';
-import styles from '../styles';
 
 const BroadbandList = ({ broadbandDeals, chosenDeals, toggleChosenDeals }) => {
     return (

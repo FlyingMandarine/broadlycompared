@@ -1,4 +1,9 @@
 const styles = {
+    loadingContainer: {
+        display: 'flex',
+        justifyContent: 'center',
+        marginTop: '25%',
+    },
     mainContainer: {
         backgroundColor: 'white',
         marginTop: '5%',
@@ -91,6 +96,33 @@ const styles = {
         height: 50,
         alignSelf: 'center',
         marginLeft: 20,
+    },
+    popupInnerContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
+    },
+    popupTop: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+    compareH1: {
+        marginLeft: 20,
+    },
+    removeLink: {
+        cursor: 'pointer',
+        textDecoration: 'underline',
+    },
+    tableTop: {
+        display: 'flex',
+        alignItems: 'center',
+    },
+    compareContinueButton: {
+        borderRadius: 20,
+        textTransform: 'none',
+        width: '30em',
+        margin: '0 100px 30px 100px',
     },
 };
 

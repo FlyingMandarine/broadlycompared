@@ -1,6 +1,6 @@
 import React from 'react';
-import { Button } from '@mui/material';
 import styles from '../styles';
+import { Button } from '@mui/material';
 
 const AddRemove = ({ deal, chosenDeals, toggleChosenDeals }) => {
     return (

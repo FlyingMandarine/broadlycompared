@@ -1,51 +1,43 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import dealsService from './services/deals';
 import BroadbandList from './components/BroadbandList';
-import { Button, Card, IconButton } from '@mui/material';
+import ComparePopup from './components/ComparePopup/ComparePopup';
+import BottomDrawer from './components/BottomDrawer';
+import { Container } from '@mui/material';
 import styles from './styles';
 
-import Drawer from '@mui/material/Drawer';
-import Divider from '@mui/material/Divider';
-import CloseIcon from '@mui/icons-material/Close';
-import ComparePopup from './components/ComparePopup';
+import LoadingButton from '@mui/lab/LoadingButton';
 
-function App() {
+const App = () => {
     const [broadbandDeals, setBroadbandDeals] = useState();
     const [chosenDeals, setChosenDeals] = useState([]);
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [isPopupOpen, setIsPopupOpen] = useState(false);
 
     useEffect(() => {
-        const getAll = async () => {
-            const URL =
-                'https://6177b8b59c328300175f5adc.mockapi.io/api/test/deals';
-            const response = await axios.get(URL);
-
-            setBroadbandDeals(response.data);
+        const fetchDeals = async () => {
+            const deals = await dealsService.getAll();
+            setBroadbandDeals(deals);
         };
 
-        getAll();
+        fetchDeals();
     }, []);
 
-    if (!broadbandDeals) {
-        return <div>Loading...</div>;
-    }
-
+    // If no deals are chosen and the bottom drawer and/or the Compare popup
+    // are open, close them.
     if (chosenDeals.length === 0) {
         if (isDrawerOpen) {
             setIsDrawerOpen(false);
+            setIsPopupOpen(false);
         }
     }
 
-    console.log(chosenDeals);
-
     const toggleChosenDeals = (newDeal) => {
+        // If the deal has already been selected, filter it out.
         if (chosenDeals.includes(newDeal)) {
             setChosenDeals(chosenDeals.filter((deal) => deal !== newDeal));
         } else {
-            if (chosenDeals.length === 2) {
-                return;
-            }
+            // Otherwise, add it to the chosen deals' array.
             setChosenDeals([...chosenDeals, newDeal]);
             setIsDrawerOpen(true);
         }
@@ -61,60 +53,47 @@ function App() {
         setIsPopupOpen(true);
     };
 
+    const closePopup = () => {
+        setIsPopupOpen(false);
+    };
+
     return (
         <div>
-            <BroadbandList
-                broadbandDeals={broadbandDeals}
-                chosenDeals={chosenDeals}
-                toggleChosenDeals={toggleChosenDeals}
-            />
-            <Drawer
-                sx={{
-                    width: '100%',
-                    flexShrink: 0,
-                    '& .MuiDrawer-paper': {
-                        width: '100%',
-                        boxSizing: 'border-box',
-                        flexDirection: 'row',
-                        justifyContent: 'center',
-                    },
-                }}
-                variant="persistent"
-                anchor="bottom"
-                open={isDrawerOpen}
-            >
-                <Divider />
-                {chosenDeals.map((deal) => (
-                    <Card
-                        key={deal.deal_id}
-                        variant="outlined"
-                        style={styles.cardContainer}
-                    >
-                        <img
-                            src={deal.provider_logo_image_url}
-                            alt={`Logo for ${deal.provider_name}`}
-                            style={styles.logo}
+            {broadbandDeals ? (
+                <div>
+                    <BroadbandList
+                        broadbandDeals={broadbandDeals}
+                        chosenDeals={chosenDeals}
+                        toggleChosenDeals={toggleChosenDeals}
+                    />
+                    <BottomDrawer
+                        chosenDeals={chosenDeals}
+                        isDrawerOpen={isDrawerOpen}
+                        compareDeals={compareDeals}
+                        removeCard={removeCard}
+                    />
+                    {isPopupOpen && (
+                        <ComparePopup
+                            deals={chosenDeals}
+                            isPopupOpen={isPopupOpen}
+                            closePopup={closePopup}
+                            handleRemove={removeCard}
                         />
-                        <div>
-                            <div>{deal.provider_name}</div>
-                            <div style={styles.dealName}>{deal.deal_name}</div>
-                        </div>
-                        <IconButton onClick={() => removeCard(deal.deal_id)}>
-                            <CloseIcon style={styles.closeIcon} />
-                        </IconButton>
-                    </Card>
-                ))}
-                <Button
-                    variant="contained"
-                    onClick={compareDeals}
-                    style={styles.compareButton}
-                >
-                    Compare deals ({chosenDeals.length} of 2)
-                </Button>
-            </Drawer>
-            {isPopupOpen && <ComparePopup />}
+                    )}
+                </div>
+            ) : (
+                <Container style={styles.loadingContainer}>
+                    <LoadingButton
+                        loading
+                        variant="contained"
+                        style={{ backgroundColor: 'grey' }}
+                    >
+                        Loading
+                    </LoadingButton>
+                </Container>
+            )}
         </div>
     );
-}
+};
 
 export default App;

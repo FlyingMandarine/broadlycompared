@@ -1,9 +1,7 @@
-README IS STILL A WORK IN PROGRESS
-
 # Broadly Compared
 
 <p align="center">
-  <img height="700" src="src/assets/images/CryptoGecko-screenshot.jpeg?raw=true "CryptoGecko"">
+  <img height="700" src="src/images/BroadlyCompared-screenshot.jpeg?raw=true "CryptoGecko"">
 </p>
 
 ## Table of Content
@@ -38,25 +36,21 @@ And that's it!
 
 ## Running Broadly Compared
 
-1. First, start the app, which should open Expo in your browser.
+Simply use npm to start the app:
 
 ```
 npm start
 ```
 
-2. Then, to start the app, use your mobile phone (Expo Go on Android, Expo and the Camera app on iOS), an Android/iOS simulator on your computer, or the web app provided by Expo in your browser. Be aware that Expo's browser simulator has a few known issues. I've tested CryptoGecko on Expo Go for Android without any issues.
-
 ## What Worked, and What Didn't
 
-CryptoGecko is a small project made on a 3-day deadline. Here is what worked and what didn't:
+Broadly Compared is a bitesize project that I did over two days. Here is what worked and what didn't:
 
-:x: Automated testing: I couldn't manage to find a way to make Jest work by the time the project was due. I started this project with the Expo TypeScript template, and it came with the React Navigation library for routing purposes (I usually use React Router Native); unfortunately, the ScrollView on most of the components just wouldn't get recognized by Jest. I tried to mock it if only so I could access its contents, but wasn't able to. Short of finding a fix, the only way I could find of solving the issue was to rebuild the entire project with React Router Native; unfortunately, I run out of time to do that.
+:white_check_mark: Material UI: The screenshots accompanying the document detailing the instructions for the app showed that a lot of bits and pieces were using Material UI, which I only had a cursory knowledge of. So it was interesting to learn how it all works; overall, it's pretty straightforward and quite easy to make something look good. It looks a little more stylistically consistent than the project I finished a couple of days before (CryptoGecko, also available on my GitHub) even though I didn't have to put as much effort into it.
 
-:white_check_mark: Pagination: I had already dealt with infinite-scrolling, cursor-based pagination with GraphQL and Apollo, but had never coded a regular, button-activated pagination (talk about running before learning to walk!). I couldn't find a suitable library for React Native that wasn't chock-full of functionalities I wouldn't use, so I had to make my own, hopefully bug-free.
+:x: CSS accuracy: The project brief stated there was no need to imitate the screenshots attached; still, the project was simple enough on the "logic" side that I wanted to practice my CSS a bit more and stick to the original site as much as possible. Unfortunately, this took quite a while, and I wasn't able to 100% match the original design by the deadline I had set myself.
 
-:white_check_mark: The search bar: Also something I had to code on my own, using React Native Paper's Searchbar component as a basis. It went well, but CoinGecko's API is limited to 50 calls/minute, so there needs to be some amount of debouncing so that data isn't fetched each time a letter is entered or deleted. The trade-off is that the debouncing delays the data fetching by half a second; this might not seem like much, but with a higher API call allowance, the debouncing amount could be lowered further, allowing for a smoother experience.
-
-:white_check_mark: Project structure: I tried to give the project a good structure, using custom hooks and separating components into smaller pieces to keep each file relatively small (under 150 lines). I made sure to fetch data as little as possible by preventing unnecessary re-renders; it worked well overall, but if I had had some more time, I would have polished a couple of useEffect hooks that still triggered too often for my taste.
+Overall, though, the project went quite well and was a nice change of pace from my latest projects that were more code-heavy.
 
 ## Contributions
 

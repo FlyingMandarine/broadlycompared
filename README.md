@@ -1,7 +1,7 @@
 # Broadly Compared
 
 <p align="center">
-  <img height="700" src="src/images/BroadlyCompared-screenshot.jpeg?raw=true "CryptoGecko"">
+  <img height="700" src="src/images/BroadlyCompared-screenshot.JPG?raw=true "BroadlyCompared"">
 </p>
 
 ## Table of Content

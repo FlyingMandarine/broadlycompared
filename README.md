@@ -15,7 +15,7 @@
 
 ## What is Broadly Compared
 
-_A project made with React.js and JavaScript for the front-end, Node and Express for the back-end._
+_A project made with React.js and JavaScript for the front-end._
 
 A simple website to compare different broadband deals using mock data.
 
